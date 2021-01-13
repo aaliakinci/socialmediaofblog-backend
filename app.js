@@ -9,7 +9,8 @@ const usersRouter = require('./routes/users');
 
 const app = express();
 
- 
+//db
+const db = require('./config/db')();
  
  
 app.use(logger('dev'));
