@@ -50,7 +50,33 @@ const login = async (req, res, next) => {
 	}
 };
 
+//User Follow Controller (follow a to b)
+const follow = async(req,res,next) => {
+try {
+	const {user_id_a,user_id_b} = req.body;
+	const user_a =  await User.findByIdAndUpdate(user_id_a,{$push:{follows:user_id_b}},{new:true});
+	const user_b =  await User.findByIdAndUpdate(user_id_b,{$push:{followers:user_id_a}},{new:true});
+	res.status(200).json({user_a,user_b})
+} catch (error) {
+	console.log(error);
+}
+}
+
+//User unFollow Controller (unFollow a to b )
+const unFollow = async(req,res,next) => {
+	try {
+		const {user_id_a,user_id_b} = req.body
+		const user_a = await User.findByIdAndUpdate(user_id_a,{$pull:{follows:user_id_b}},{new:true});
+		const user_b = await User.findByIdAndUpdate(user_id_b,{$pull:{followers:user_id_a}},{new:true});
+		res.status(200).json({user_a,user_b});
+	} catch (error) {
+		console.log(error)
+	}
+}
+
 module.exports = {
 	register,
 	login,
+	follow,
+	unFollow
 };

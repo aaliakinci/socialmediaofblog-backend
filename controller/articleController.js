@@ -67,13 +67,7 @@ const getAllArticleSortByReactionPoint = (req,res,next) => {
 	}).catch((err)=>{
 		res.json(err);
 	})
-
 }
-
-
-
-
-
 
 
 //Create Article
