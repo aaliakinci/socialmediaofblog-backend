@@ -17,7 +17,7 @@ const upload = require('../middleware/uploadImageMiddleware');
 router.post('/register',upload.single('profilPicture'), userController.register);
 
 /* Login User */
-router.post('/login',)
+router.post('/login',userController.login)
 
 
 

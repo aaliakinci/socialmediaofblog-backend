@@ -1,8 +1,6 @@
 const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
-
-
-
+const { findUserForLogin,createToken } = require('./functionArea');
 
 //User Register Controller
 const register = (req, res, next) => {
@@ -40,19 +38,19 @@ const register = (req, res, next) => {
 	});
 };
 
-
-//User Login Controller 
-const login = (req,res,next) =>{
-	const {username,password} = req.body
-	
-
-
-} 
-
-
-
-
+//User Login Controller
+const login = async (req, res, next) => {
+	try {
+		const {username,password} = req.body
+		const user = await findUserForLogin(username, password);
+		const token = await createToken(user);
+		res.status(200).json({user,token});
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 module.exports = {
 	register,
+	login,
 };
