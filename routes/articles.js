@@ -9,6 +9,8 @@ const articleController = require('../controller/articleController')
 //Get All Article
 router.get('/',articleController.getAllArticle)
 
+//Get All Sort By ReactionPoint
+router.get('/reactionPoint',articleController.getAllArticleSortByReactionPoint)
 
 
 

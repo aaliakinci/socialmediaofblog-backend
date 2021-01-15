@@ -1,5 +1,6 @@
 
 //Models
+const mongoose = require('mongoose');
 const Article = require('../Models/Article');
 
 //functions
@@ -16,6 +17,58 @@ promise.then((data)=>{
 })
 }
 
+//Get All Article Sort By ReactionPoint
+const getAllArticleSortByReactionPoint = (req,res,next) => {
+	const promise =Article.aggregate([
+		{
+			$lookup:{
+				from:'users',
+				localField:'user_id',
+				foreignField:'_id',
+				as:'user'
+			}
+		},
+		{
+			$unwind:{
+				path:'$user'
+			}
+		},
+		{
+			$group:{
+				_id:{
+					_id:'$_id',
+					title:'$title',
+					description:'$description',
+					createAt:'$createAt',
+				},
+				user:{
+					$push:'$user'
+				}
+			}
+		},
+		{
+			$project:{
+				_id:'$_id._id',
+				title:'$_id.title',
+				description:'$_id.description',
+				createAt:'$_id.createAt',
+				user:'$user'
+			}
+		},
+		{
+			$sort:{
+				reactionPoint:-1,
+				createAt:-1
+			}
+		}
+	]);
+	promise.then((data)=>{
+		res.status(200).json(data)
+	}).catch((err)=>{
+		res.json(err);
+	})
+
+}
 
 
 
@@ -44,5 +97,6 @@ const createArticle = async (req, res, next) => {
 
 module.exports= {
 	createArticle,
-	getAllArticle
+	getAllArticle,
+	getAllArticleSortByReactionPoint
 }
