@@ -6,6 +6,24 @@ const Article = require('../Models/Article');
 const {addArticleToUser} = require('./functionArea');
 
 
+//Get All Article
+const getAllArticle = (req,res,next) => {
+const promise = Article.find({})
+promise.then((data)=>{
+	res.json(data);
+}).catch((err)=>{
+	console.log(err);
+})
+}
+
+
+
+
+
+
+
+
+//Create Article
 const createArticle = async (req, res, next) => {
 	try {
 		const { title, description, content, user_id, hashtags } = req.body;
@@ -26,4 +44,5 @@ const createArticle = async (req, res, next) => {
 
 module.exports= {
 	createArticle,
+	getAllArticle
 }

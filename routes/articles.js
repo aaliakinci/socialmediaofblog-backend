@@ -4,8 +4,17 @@ const router = express.Router();
 //controller
 const articleController = require('../controller/articleController')
 
-//Create Article
 
+
+//Get All Article
+router.get('/',articleController.getAllArticle)
+
+
+
+
+
+
+//Create Article
 router.post('/create',articleController.createArticle);
 
 
