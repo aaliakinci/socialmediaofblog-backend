@@ -11,9 +11,8 @@ const HashtagSchema = new Schema({
 		type:Number,
 		default:0
 	},
-	article_id:{
+	articles:[{
 		type:mongoose.Types.ObjectId,
-		ref:'articles',
-		require:true
-	}
+		ref:'Article',
+	}]
 })

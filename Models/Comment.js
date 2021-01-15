@@ -13,11 +13,11 @@ const CommentSchema = new Schema({
 	},
 	user_id:{
 		type:mongoose.Types.ObjectId,
-		ref:'users'
+		ref:'User'
 	},
 	article_id:{
 		type:mongoose.Types.ObjectId,
-		ref:'articles'
+		ref:'Article'
 	}
 	
 })

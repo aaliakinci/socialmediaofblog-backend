@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const LikeSchema = new Schema({
 	user_id:{
 		type:mongoose.Types.ObjectId,
-		ref:'users',
+		ref:'User',
 		require:true
 	},
 	article_id:{
 		type:mongoose.Types.ObjectId,
-		ref:'articles',
+		ref:'Article',
 		require:true
 	}
 })
