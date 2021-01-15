@@ -1,9 +1,24 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+
+//Controllers
+const userController = require('../controller/userController');
+
+
+
+//Middlewares
+const upload = require('../middleware/uploadImageMiddleware');
+
+
+
+
+/* Register User */
+router.post('/register',upload.single('profilPicture'), userController.register);
+
+/* Login User */
+router.post('/login',)
+
+
 
 module.exports = router;
