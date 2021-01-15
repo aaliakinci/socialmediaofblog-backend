@@ -9,11 +9,12 @@
 | url/users/follow   | post      | user_id_a,user_id_b                                     | Follow user a to b    |
 | url/users/follow   | post      | user_id_a,user_id_b                                     | unFollow user a to b  |
 
-
 # Article
 
-| Route                      | Http Verb | Req Body                                   | Description                                                  |
-| -------------------------- | --------- | ------------------------------------------ | ------------------------------------------------------------ |
-| url/articles               | get       |                                            | Get All                                                      |
-| url/articles/create        | post      | title,description,content,user_id,hashtags | Create Article                                               |
-| url/articles/reactionPoint | get       |                                            | Get All Article with User Sort By ReactionPoint and CreateAt |
+| Route                        | Http Verb | Req Body                                   | Description                                                  |
+| ---------------------------- | --------- | ------------------------------------------ | ------------------------------------------------------------ |
+| url/articles                 | get       |                                            | Get All                                                      |
+| url/articles/create          | post      | title,description,content,user_id,hashtags | Create Article                                               |
+| url/articles/reactionPoint   | get       |                                            | Get All Article with User Sort By ReactionPoint and CreateAt |
+| url/articles/byUser/:user_id | get       |                                            | get Articles by User Id                                      |
+| url/articles/:article_id     | get       |                                            | get Article by Article Id                                    |

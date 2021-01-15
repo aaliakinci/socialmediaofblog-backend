@@ -132,6 +132,77 @@ const getArticlesByUser_id = async(req,res,next) => {
 }
 
 
+//Get Article by Article id 
+const getArticleByArticle_id = (req,res,next) => {
+	const id = req.params.article_id;
+ 
+	const promise = Article.aggregate([
+		{
+			$match:{
+				_id:mongoose.Types.ObjectId(id)
+			}
+		},
+		{
+			$lookup: {
+				from: 'users',
+				localField: 'user_id',
+				foreignField: '_id',
+				as: 'user',
+			},
+		},
+		{
+			$unwind: {
+				path: '$user',
+			},
+		},
+		{
+			$lookup:{
+				from:'comments',
+				localField:'comments',
+				foreignField:'_id',
+				as:'comments'
+			}
+		},
+		{
+			$unwind:{
+				path:'$comments',
+				preserveNullAndEmptyArrays:true
+			}
+		},
+		{
+			$group:{
+				_id: {
+					_id: '$_id',
+					title: '$title',
+					description: '$description',
+					createAt: '$createAt',
+				},
+				user:{
+					$push:'$user'
+				},
+				comments:{
+					$push:'$comments'
+				
+				}
+			}
+		},
+		{
+			$project: {
+				_id: '$_id._id',
+				title: '$_id.title',
+				description: '$_id.description',
+				createAt: '$_id.createAt',
+				user: '$user',
+				comments:'$comments'
+			},
+		}
+	]);
+	promise.then((data)=>{
+	 res.status(200).json(data);
+	}).catch((err)=>{
+		console.log(err);
+	})
+}
 
 
 
@@ -154,6 +225,12 @@ const followsArticle = async (req, res, next) => {
 		console.log(error);
 	}
 };
+
+
+
+
+
+
 
 //Create Article
 const createArticle = async (req, res, next) => {
@@ -180,4 +257,5 @@ module.exports = {
 	getAllArticleSortByReactionPoint,
 	followsArticle,
 	getArticlesByUser_id,
+	getArticleByArticle_id
 };
