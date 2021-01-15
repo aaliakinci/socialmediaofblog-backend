@@ -30,7 +30,7 @@ const register = (req, res, next) => {
 		const promise = user.save();
 		promise
 			.then((data) => {
-				res.json(data);
+				res.status(200).json(data);
 			})
 			.catch((err) => {
 				res.json(err);
