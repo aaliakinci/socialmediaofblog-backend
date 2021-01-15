@@ -4,7 +4,7 @@
 
 #User
 
-| Route                   | Req Body                                                |
-| ----------------------- | ------------------------------------------------------- |
-| post url/users/register | name,surname,username,password,phoneNumber,email,gender |
-| post url/users/login    | username,password                                       |
+| Route              | Http Verb | Req Body                                                |
+| ------------------ | --------- | ------------------------------------------------------- |
+| url/users/register | post      | name,surname,username,password,phoneNumber,email,gender |
+| url/users/login    | post      | username,password                                       |
