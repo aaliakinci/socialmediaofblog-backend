@@ -58,6 +58,19 @@ const addCommentToUser = async (comment_id, user_id) => {
 		console.log(error);
 	}
 };
+//Remove Comment To User
+const removeCommentToUser = async (comment_id, user_id) => {
+	try {
+		const user = User.findByIdAndUpdate(
+			user_id,
+			{ $pull: { comments: comment_id } },
+			{ new: true },
+		);
+		return user;
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 //----------------------------Article Function-----------------------------------------
 //Comment Add To Article
@@ -73,22 +86,36 @@ const addCommentToArticle = async (comment_id, article_id) => {
 		console.log(error);
 	}
 };
-
-//Article increment-decrement reactionPoint
-const mathReactionPoint = async (article_id,which) => {
-	const {reactionPoint} = await Article.findById(article_id);
-	if(which)
-	{
-		const updatedArticleReactionPoint = await Article.findByIdAndUpdate(article_id,{reactionPoint:reactionPoint+1})
-		return updatedArticleReactionPoint
-	}
-	else
-	{
-		const updatedArticleReactionPoint = await Article.findByIdAndUpdate(article_id,{reactionPoint:reactionPoint-1})
-		return updatedArticleReactionPoint
+//Comment Remove To Article
+const removeCommentToArticle = async (comment_id, article_id) => {
+	try {
+		const article = Article.findByIdAndUpdate(
+			article_id,
+			{ $pull: { comments: comment_id } },
+			{ new: true },
+		);
+		return article;
+	} catch (error) {
+		console.log(error);
 	}
 };
- 
+
+//Article increment-decrement reactionPoint (need send boolean true or false increment(true) or decrement(false))
+const mathReactionPoint = async (article_id, which) => {
+	const { reactionPoint } = await Article.findById(article_id);
+	if (which) {
+		const updatedArticleReactionPoint = await Article.findByIdAndUpdate(article_id, {
+			reactionPoint: reactionPoint + 1,
+		});
+		return updatedArticleReactionPoint;
+	} else {
+		const updatedArticleReactionPoint = await Article.findByIdAndUpdate(article_id, {
+			reactionPoint: reactionPoint - 1,
+		});
+		return updatedArticleReactionPoint;
+	}
+};
+
 module.exports = {
 	findUserForLogin,
 	createToken,
@@ -96,4 +123,6 @@ module.exports = {
 	addCommentToUser,
 	addCommentToArticle,
 	mathReactionPoint,
+	removeCommentToUser,
+	removeCommentToArticle
 };

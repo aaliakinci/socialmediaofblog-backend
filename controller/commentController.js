@@ -4,11 +4,12 @@ const Comment = require('../Models/Comment');
 
 
 //function area
-const {addCommentToUser,addCommentToArticle,mathReactionPoint} = require('./functionArea')
+const {addCommentToUser,addCommentToArticle,mathReactionPoint,removeCommentToArticle,removeCommentToUser} = require('./functionArea')
 
 //mongoose
 const mongoose = require('mongoose')
 
+//create comment 
 const createComment = async(req,res,next) => {
 	try {
 		const {user_id,article_id,description} = req.body
@@ -26,6 +27,10 @@ const createComment = async(req,res,next) => {
 		console.log(error);	
 	}
 }
+
+
+
+//get comments by article id 
 const getCommentsByArticleId = async(req,res,next) => {
 	try {
 		const id = req.params.article_id
@@ -33,6 +38,20 @@ const getCommentsByArticleId = async(req,res,next) => {
 		res.status(200).json(comments);
 	} catch (error) {
 		console.log(error);
+	}
+}
+
+//delete comment by comment id 
+const deleteComment = async(req,res,next) => {
+	const {comment_id,article_id,user_id} = req.body;
+	try {
+		const removedCommentArticle =  await removeCommentToArticle(comment_id,article_id);
+		const removedCommentUser = await removeCommentToUser(comment_id,user_id);
+		const removedComment = await Comment.findOneAndRemove(comment_id);
+		const decrement = await mathReactionPoint(article_id,false);
+		res.status(200).json({status:1});
+	} catch (error) {
+		console.log(error)
 	}
 }
 
@@ -44,8 +63,8 @@ const getCommentsByArticleId = async(req,res,next) => {
 
 
 
-
 module.exports = {
 	createComment,
-	getCommentsByArticleId
+	getCommentsByArticleId,
+	deleteComment
 }
