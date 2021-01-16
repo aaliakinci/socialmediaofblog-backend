@@ -74,14 +74,14 @@ const getAllArticleSortByReactionPoint = (req, res, next) => {
 };
 
 //Get Articles by user_id
-const getArticlesByUser_id = async(req,res,next) => {
+const getArticlesByUser_id = async (req, res, next) => {
 	const id = req.params.user_id;
- 
+
 	const promise = Article.aggregate([
 		{
-			$match:{
-				user_id:mongoose.Types.ObjectId(id)
-			}
+			$match: {
+				user_id: mongoose.Types.ObjectId(id),
+			},
 		},
 		{
 			$lookup: {
@@ -124,23 +124,24 @@ const getArticlesByUser_id = async(req,res,next) => {
 			},
 		},
 	]);
-	promise.then((data)=>{
-	 res.status(200).json(data);
-	}).catch((err)=>{
-		console.log(err);
-	})
-}
+	promise
+		.then((data) => {
+			res.status(200).json(data);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
 
-
-//Get Article by Article id 
-const getArticleByArticle_id = (req,res,next) => {
+//Get Article by Article id
+const getArticleByArticle_id = (req, res, next) => {
 	const id = req.params.article_id;
- 
+
 	const promise = Article.aggregate([
 		{
-			$match:{
-				_id:mongoose.Types.ObjectId(id)
-			}
+			$match: {
+				_id: mongoose.Types.ObjectId(id),
+			},
 		},
 		{
 			$lookup: {
@@ -156,35 +157,34 @@ const getArticleByArticle_id = (req,res,next) => {
 			},
 		},
 		{
-			$lookup:{
-				from:'comments',
-				localField:'comments',
-				foreignField:'_id',
-				as:'comments'
-			}
+			$lookup: {
+				from: 'comments',
+				localField: 'comments',
+				foreignField: '_id',
+				as: 'comments',
+			},
 		},
 		{
-			$unwind:{
-				path:'$comments',
-				preserveNullAndEmptyArrays:true
-			}
+			$unwind: {
+				path: '$comments',
+				preserveNullAndEmptyArrays: true,
+			},
 		},
 		{
-			$group:{
+			$group: {
 				_id: {
 					_id: '$_id',
 					title: '$title',
 					description: '$description',
 					createAt: '$createAt',
 				},
-				user:{
-					$push:'$user'
+				user: {
+					$push: '$user',
 				},
-				comments:{
-					$push:'$comments'
-				
-				}
-			}
+				comments: {
+					$push: '$comments',
+				},
+			},
 		},
 		{
 			$project: {
@@ -193,44 +193,71 @@ const getArticleByArticle_id = (req,res,next) => {
 				description: '$_id.description',
 				createAt: '$_id.createAt',
 				user: '$user',
-				comments:'$comments'
+				comments: '$comments',
 			},
-		}
+		},
 	]);
-	promise.then((data)=>{
-	 res.status(200).json(data);
-	}).catch((err)=>{
-		console.log(err);
-	})
-}
-
-
-
-
+	promise
+		.then((data) => {
+			res.status(200).json(data);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
 
 //Get All follows Article sort by lastTime
 const followsArticle = async (req, res, next) => {
-	
-	try {
-		const { user_id } = req.body;
-		const user = await User.findById(user_id);
-	  // const output = user.follows.map((item) => {
-		//  const promise = Article.find({ user_id: item });
-   	// 	 promise.then((data)=>{
-		//  }).catch((err)=>{
-		// 	 console.log(err);
-		//  })
-		// }) 
-	} catch (error) {
-		console.log(error);
-	}
+	const { user_id } = req.body;
+	const userFollows = await User.aggregate([
+		{
+			$match: {
+				_id: mongoose.Types.ObjectId(user_id),
+			},
+		},
+		{
+			$lookup: {
+				from: 'users',
+				localField: 'follows',
+				foreignField: '_id',
+				as: 'follows',
+			},
+		},
+		{
+			$unwind: {
+				path: '$follows',
+			},
+		},
+		 {
+			 $lookup:{
+				 from:'articles',
+				 localField:'follows.articles',
+				 foreignField:'_id',
+				 as:'articles'
+			 }
+		 },
+		 {
+			 $unwind:{
+				 path:'$articles',
+			 }
+		 },
+		 {
+			 $group:{
+				 _id:'$_id',
+				 articles:{
+					 $push:'$articles'
+				 }
+			 }
+		 },
+		 {
+			 $project:{
+				 _id:'$_id._id',
+				 articles:'$articles'
+			 }
+		 }	
+	]);
+	res.json(userFollows)
 };
-
-
-
-
-
-
 
 //Create Article
 const createArticle = async (req, res, next) => {
@@ -257,5 +284,5 @@ module.exports = {
 	getAllArticleSortByReactionPoint,
 	followsArticle,
 	getArticlesByUser_id,
-	getArticleByArticle_id
+	getArticleByArticle_id,
 };

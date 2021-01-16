@@ -9,12 +9,15 @@ const articleController = require('../controller/articleController')
 //Get All Article
 router.get('/',articleController.getAllArticle)
 
+//Get Follows Article 
+router.get('/followsArticle',articleController.followsArticle)
+
 //Get All Sort By ReactionPoint
 router.get('/reactionPoint',articleController.getAllArticleSortByReactionPoint)
 //Get Articles by Article Id 
 router.get('/:article_id',articleController.getArticleByArticle_id)
-//Get Follows Article 
-router.get('/followsArticle',articleController.followsArticle)
+
+
 
 //Get Articles by User Id 
 router.get('/byUser/:user_id',articleController.getArticlesByUser_id)
