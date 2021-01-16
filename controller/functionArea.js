@@ -8,9 +8,6 @@ const User = require('../Models/User');
 const Article = require('../Models/Article');
 const { json } = require('express');
 
-
-
-
 //----------------------USER FUNCTİONS -------------------------
 //Login User Control Function
 const findUserForLogin = async (username, password) => {
@@ -38,49 +35,65 @@ const createToken = async (user) => {
 //createdArticle Add To User
 const addArticleToUser = async (article_id, user_id) => {
 	try {
-		const user = User.findByIdAndUpdate(user_id, { $push: { articles: article_id } },{new:true});
-		return user
-	} catch (error) {
-		console.log(error);
-	}
-};
-//createComment Add To User 
-const addCommentToUser = async (comment_id , user_id) => {
-	try {
-		const user = User.findByIdAndUpdate(user_id,{$push:{comments:comment_id}},{new:true});
+		const user = User.findByIdAndUpdate(
+			user_id,
+			{ $push: { articles: article_id } },
+			{ new: true },
+		);
 		return user;
 	} catch (error) {
 		console.log(error);
 	}
-}
-
-
-
-
-//----------------------------Article Function-----------------------------------------
-const addCommentToArticle = async (comment_id,article_id) => {
+};
+//createComment Add To User
+const addCommentToUser = async (comment_id, user_id) => {
 	try {
-		const article = Article.findByIdAndUpdate(article_id,{$push:{comments:comment_id}},{new:true});
-		return article
+		const user = User.findByIdAndUpdate(
+			user_id,
+			{ $push: { comments: comment_id } },
+			{ new: true },
+		);
+		return user;
 	} catch (error) {
 		console.log(error);
 	}
-}
+};
 
+//----------------------------Article Function-----------------------------------------
+//Comment Add To Article
+const addCommentToArticle = async (comment_id, article_id) => {
+	try {
+		const article = Article.findByIdAndUpdate(
+			article_id,
+			{ $push: { comments: comment_id } },
+			{ new: true },
+		);
+		return article;
+	} catch (error) {
+		console.log(error);
+	}
+};
 
-
-
-
-
-
-
-
-
-
+//Article increment-decrement reactionPoint
+const mathReactionPoint = async (article_id,which) => {
+	const {reactionPoint} = await Article.findById(article_id);
+	if(which)
+	{
+		const updatedArticleReactionPoint = await Article.findByIdAndUpdate(article_id,{reactionPoint:reactionPoint+1})
+		return updatedArticleReactionPoint
+	}
+	else
+	{
+		const updatedArticleReactionPoint = await Article.findByIdAndUpdate(article_id,{reactionPoint:reactionPoint-1})
+		return updatedArticleReactionPoint
+	}
+};
+ 
 module.exports = {
 	findUserForLogin,
 	createToken,
 	addArticleToUser,
 	addCommentToUser,
-	addCommentToArticle
+	addCommentToArticle,
+	mathReactionPoint,
 };

@@ -4,7 +4,7 @@ const Comment = require('../Models/Comment');
 
 
 //function area
-const {addCommentToUser,addCommentToArticle} = require('./functionArea')
+const {addCommentToUser,addCommentToArticle,mathReactionPoint} = require('./functionArea')
 
 //mongoose
 const mongoose = require('mongoose')
@@ -20,6 +20,7 @@ const createComment = async(req,res,next) => {
 		const createdComment = await comment.save()
 		const importUser = await addCommentToUser(createdComment._id,user_id);
 		const importArticle = await addCommentToArticle(createdComment._id,article_id);
+		const updatedArticle = await mathReactionPoint(article_id,true);
 		res.status(200).json(createdComment)
 	} catch (error) {
 		console.log(error);	
