@@ -1,13 +1,15 @@
-
+//Models
 const Comment = require('../Models/Comment');
+
+
 
 //function area
 const {addCommentToUser,addCommentToArticle} = require('./functionArea')
 
-
+//mongoose
+const mongoose = require('mongoose')
 
 const createComment = async(req,res,next) => {
-
 	try {
 		const {user_id,article_id,description} = req.body
 		const comment = new Comment({
@@ -23,7 +25,26 @@ const createComment = async(req,res,next) => {
 		console.log(error);	
 	}
 }
+const getCommentsByArticleId = async(req,res,next) => {
+	try {
+		const id = req.params.article_id
+		const comments = await Comment.find({article_id:id}).sort({createAt:-1});
+		res.status(200).json(comments);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+
+
+
+
+
+
+
+
 
 module.exports = {
 	createComment,
+	getCommentsByArticleId
 }
