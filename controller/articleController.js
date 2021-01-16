@@ -208,8 +208,9 @@ const getArticleByArticle_id = (req, res, next) => {
 
 //Get All follows Article sort by lastTime
 const followsArticle = async (req, res, next) => {
-	const { user_id } = req.body;
-	const userFollows = await User.aggregate([
+	try {
+		const { user_id } = req.body;
+		const userFollows = await User.aggregate([
 		{
 			$match: {
 				_id: mongoose.Types.ObjectId(user_id),
@@ -228,35 +229,39 @@ const followsArticle = async (req, res, next) => {
 				path: '$follows',
 			},
 		},
-		 {
-			 $lookup:{
-				 from:'articles',
-				 localField:'follows.articles',
-				 foreignField:'_id',
-				 as:'articles'
-			 }
-		 },
-		 {
-			 $unwind:{
-				 path:'$articles',
-			 }
-		 },
-		 {
-			 $group:{
-				 _id:'$_id',
-				 articles:{
-					 $push:'$articles'
-				 }
-			 }
-		 },
-		 {
-			 $project:{
-				 _id:'$_id._id',
-				 articles:'$articles'
-			 }
-		 }	
+		{
+			$lookup: {
+				from: 'articles',
+				localField: 'follows.articles',
+				foreignField: '_id',
+				as: 'articles',
+			},
+		},
+		{
+			$unwind: {
+				path: '$articles',
+			},
+		},
+		{
+			$group: {
+				_id: {_id:'$_id',},
+				articles: {
+					$push: '$articles',
+				},
+			},
+		},
+		{
+			$project: {
+				_id:'$_id._id',
+				articles: '$articles',
+			},
+		},
 	]);
-	res.json(userFollows[0].articles)
+	//Need Sort
+	res.json(userFollows[0].articles);
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 //Create Article

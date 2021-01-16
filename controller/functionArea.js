@@ -8,6 +8,10 @@ const User = require('../Models/User');
 const Article = require('../Models/Article');
 const { json } = require('express');
 
+
+
+
+//----------------------USER FUNCTİONS -------------------------
 //Login User Control Function
 const findUserForLogin = async (username, password) => {
 	const user = await User.findOne({ username });
@@ -31,7 +35,6 @@ const createToken = async (user) => {
 	);
 	return token;
 };
-
 //createdArticle Add To User
 const addArticleToUser = async (article_id, user_id) => {
 	try {
@@ -41,10 +44,43 @@ const addArticleToUser = async (article_id, user_id) => {
 		console.log(error);
 	}
 };
+//createComment Add To User 
+const addCommentToUser = async (comment_id , user_id) => {
+	try {
+		const user = User.findByIdAndUpdate(user_id,{$push:{comments:comment_id}},{new:true});
+		return user;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+
+
+
+//----------------------------Article Function-----------------------------------------
+const addCommentToArticle = async (comment_id,article_id) => {
+	try {
+		const article = Article.findByIdAndUpdate(article_id,{$push:{comments:comment_id}},{new:true});
+		return article
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+
+
+
+
+
+
+
+
 
 
 module.exports = {
 	findUserForLogin,
 	createToken,
 	addArticleToUser,
+	addCommentToUser,
+	addCommentToArticle
 };

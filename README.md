@@ -18,3 +18,4 @@
 | url/articles/reactionPoint   | get       |                                            | Get All Article with User Sort By ReactionPoint and CreateAt |
 | url/articles/byUser/:user_id | get       |                                            | get Articles by User Id                                      |
 | url/articles/:article_id     | get       |                                            | get Article by Article Id                                    |
+| url/articles/followsArticle  | get       |                                            | get FollowsArticle                                           |
