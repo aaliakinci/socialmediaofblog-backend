@@ -20,13 +20,10 @@
 | url/articles/:article_id     | get       |                                            | get Article by Article Id                                    |
 | url/articles/followsArticle  | get       |                                            | get FollowsArticle                                           |
 
-
-
-
-
 # Comment
 
 | Route                    | Http Verb | Req Body                       | Description               |
 | ------------------------ | --------- | ------------------------------ | ------------------------- |
 | url/comments/:article_id | get       |                                | Get Comments by ArticleId |
 | url/comments/create      | post      | user_id,article_id,description | Create Comment            |
+| url/comments/delete      | post      | user_id,article_id,comment_id  | Delete Comment            |
