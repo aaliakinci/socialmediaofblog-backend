@@ -256,7 +256,7 @@ const followsArticle = async (req, res, next) => {
 			 }
 		 }	
 	]);
-	res.json(userFollows)
+	res.json(userFollows[0].articles)
 };
 
 //Create Article
