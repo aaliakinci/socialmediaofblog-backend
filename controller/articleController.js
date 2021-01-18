@@ -5,7 +5,7 @@ const Article = require('../Models/Article');
 const User = require('../Models/User');
 
 //functions
-const { addArticleToUser } = require('./functionArea');
+const { addArticleToUser,addArticleToHashtags } = require('./functionArea');
 
 //Get All Article
 const getAllArticle = (req, res, next) => {
@@ -277,6 +277,9 @@ const createArticle = async (req, res, next) => {
 		});
 		const createdArticle = await article.save();
 		const importUser = await addArticleToUser(createdArticle._id, user_id);
+		createdArticle.hashtags.forEach(async (element) => {
+			await addArticleToHashtags(element,createdArticle._id)
+		});
 		res.status(200).json({ createdArticle });
 	} catch (error) {
 		console.log(error);

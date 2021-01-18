@@ -16,3 +16,5 @@ const HashtagSchema = new Schema({
 		ref:'Article',
 	}]
 })
+
+module.exports=mongoose.model('hashtag',HashtagSchema)

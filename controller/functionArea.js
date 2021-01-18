@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 //Models
 const User = require('../Models/User');
 const Article = require('../Models/Article');
+const Hashtag = require('../Models/Hashtag');
+
 const { json } = require('express');
 
 //----------------------USER FUNCTİONS -------------------------
@@ -72,14 +74,18 @@ const removeCommentToUser = async (comment_id, user_id) => {
 	}
 };
 //createLike Add To User
-const addLikeToUser = async(like_id,user_id) => {
+const addLikeToUser = async (like_id, user_id) => {
 	try {
-		const user = await User.findByIdAndUpdate(user_id,{$push:{likes:like_id}},{new:true});
-		return user
+		const user = await User.findByIdAndUpdate(
+			user_id,
+			{ $push: { likes: like_id } },
+			{ new: true },
+		);
+		return user;
 	} catch (error) {
 		console.log(error);
 	}
-}
+};
 //Remove Comment To User
 const removeLikeToUser = async (like_id, user_id) => {
 	try {
@@ -93,11 +99,6 @@ const removeLikeToUser = async (like_id, user_id) => {
 		console.log(error);
 	}
 };
-
-
-
-
-
 
 //----------------------------Article Function-----------------------------------------
 //Comment Add To Article
@@ -127,10 +128,14 @@ const removeCommentToArticle = async (comment_id, article_id) => {
 	}
 };
 // Like Add To Article
-const addLikeToArticle = async(like_id,article_id) => {
+const addLikeToArticle = async (like_id, article_id) => {
 	try {
-		const article = await Article.findByIdAndUpdate(article_id,{$push:{likes:like_id}},{new:true});
-		return article
+		const article = await Article.findByIdAndUpdate(
+			article_id,
+			{ $push: { likes: like_id } },
+			{ new: true },
+		);
+		return article;
 	} catch (error) {
 		console.log(error);
 	}
@@ -163,6 +168,20 @@ const mathReactionPoint = async (article_id, which) => {
 	}
 };
 
+// Add Article To Hashtags
+const addArticleToHashtags = async (hashtag_id, article_id) => {
+	try {
+		const hashtag = await Hashtag.findByIdAndUpdate(
+			hashtag_id,
+			{ $push: { articles: article_id } },
+			{ new: true },
+		);
+		return json(hashtag);
+	} catch (error) {
+		console.log(error)
+	}
+};
+
 module.exports = {
 	findUserForLogin,
 	createToken,
@@ -175,5 +194,6 @@ module.exports = {
 	addLikeToArticle,
 	addLikeToUser,
 	removeLikeToUser,
-	removeLikeToArticle
+	removeLikeToArticle,
+	addArticleToHashtags
 };
