@@ -1,8 +1,59 @@
 //models
 const Like = require('../Models/Like');
 
+
+//mongoose
+const mongoose = require('mongoose')
+
 //functions
 const {addLikeToArticle,addLikeToUser,removeLikeToUser,removeLikeToArticle} = require('./functionArea')
+
+
+const getArticlesByUserId = async (req,res,next) => {
+ try {
+	const articles = await Like.aggregate([
+		{
+			$match:{
+				user_id:mongoose.Types.ObjectId(req.params.user_id)
+			}
+		},
+		{
+			$lookup:{
+				from:'articles',
+				localField:'article_id',
+				foreignField:'_id',
+				as:'articles'
+			}
+		},
+		{
+			$unwind:{
+				path:'$articles'
+			}
+		},
+		{
+			$group:{
+				_id:{
+					_id:'$_id',
+					user_id:'$user_id'
+				},
+				article:{
+					$push:'$articles'
+				}
+			}
+		},
+		{
+			$project:{
+				_id:'$_id._id',
+				article:'$article'
+			}
+		}
+	])
+	res.status(200).json(articles);
+ } catch (error) {
+	 console.log(error)
+ }
+}
+
 
 
 const createLike = async (req, res, next) => {
@@ -36,5 +87,6 @@ const deleteLike = async (req, res, next) => {
 
 module.exports = {
 	createLike,
-	deleteLike
+	deleteLike,
+	getArticlesByUserId
 };
