@@ -52,9 +52,9 @@ const UserSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
-	isEditor: {
-		type: Boolean,
-		default: false,
+	isBanned:{
+		type:Boolean,
+		default:false
 	},
 	follows: [{
 		type: mongoose.Types.ObjectId,

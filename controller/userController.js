@@ -43,6 +43,10 @@ const login = async (req, res, next) => {
 	try {
 		const {username,password} = req.body
 		const user = await findUserForLogin(username, password);
+		if(user.isBanned===true)
+		{
+			throw createError(403, 'Hesabınız askıya alınmıştır lütfen iletişime geçiniz.');
+		}
 		const token = await createToken(user);
 		res.status(200).json({user,token});
 	} catch (error) {
