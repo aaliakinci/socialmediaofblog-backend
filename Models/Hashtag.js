@@ -6,6 +6,7 @@ const HashtagSchema = new Schema({
 		type:String,
 		maxlength:20,
 		require:true,
+		unique:true,
 	},
 	usePoint:{
 		type:Number,

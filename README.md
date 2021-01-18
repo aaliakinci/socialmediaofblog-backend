@@ -35,3 +35,10 @@
 | url/likes/:user_id | get       |                            | Get Articles By User Likes |
 | url/likes/create   | post      | user_id,article_id         | Create Comment             |
 | url/likes/delete   | post      | user_id,article_id,like_id | Delete Comment             |
+
+# Hashtag
+
+| Route                    | Http Verb | Req Body | Description                |
+| ------------------------ | --------- | -------- | -------------------------- |
+| url/hashtags/create      | post      | body     | Create Hashtag             |
+| url/hashtags/:hashtag_id | get       |          | Get Articles By Hashtag_id |
