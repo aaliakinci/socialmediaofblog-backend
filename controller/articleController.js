@@ -282,6 +282,18 @@ const createArticle = async (req, res, next) => {
 		console.log(error);
 	}
 };
+// //Delete Article
+// const deleteArticle = async (req,res,next) => {
+// 	try {
+// 		const {article_id,user_id} = req.body
+// 		removeArticleToUser()
+// 	} catch (error) {
+		
+// 	}
+// }
+
+
+
 
 module.exports = {
 	createArticle,

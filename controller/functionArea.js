@@ -71,6 +71,20 @@ const removeCommentToUser = async (comment_id, user_id) => {
 		console.log(error);
 	}
 };
+//createLike Add To User
+const addLikeToUser = async(like_id,user_id) => {
+	try {
+		const user = User.findByIdAndUpdate(user_id,{$push:{likes:like_id}},{new:true});
+		return user
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+
+
+
+
 
 //----------------------------Article Function-----------------------------------------
 //Comment Add To Article
@@ -99,7 +113,15 @@ const removeCommentToArticle = async (comment_id, article_id) => {
 		console.log(error);
 	}
 };
-
+// Like Add To Article
+const addLikeToArticle = async(like_id,article_id) => {
+	try {
+		const article = Article.findByIdAndUpdate(article_id,{$push:{likes:like_id}},{new:true});
+		return article
+	} catch (error) {
+		console.log(error);
+	}
+}
 //Article increment-decrement reactionPoint (need send boolean true or false increment(true) or decrement(false))
 const mathReactionPoint = async (article_id, which) => {
 	const { reactionPoint } = await Article.findById(article_id);
@@ -124,5 +146,7 @@ module.exports = {
 	addCommentToArticle,
 	mathReactionPoint,
 	removeCommentToUser,
-	removeCommentToArticle
+	removeCommentToArticle,
+	addLikeToArticle,
+	addLikeToUser
 };
