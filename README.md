@@ -27,3 +27,11 @@
 | url/comments/:article_id | get       |                                | Get Comments by ArticleId |
 | url/comments/create      | post      | user_id,article_id,description | Create Comment            |
 | url/comments/delete      | post      | user_id,article_id,comment_id  | Delete Comment            |
+
+# Like
+
+| Route              | Http Verb | Req Body                   | Description                |
+| ------------------ | --------- | -------------------------- | -------------------------- |
+| url/likes/:user_id | get       |                            | Get Articles By User Likes |
+| url/likes/create   | post      | user_id,article_id         | Create Comment             |
+| url/likes/delete   | post      | user_id,article_id,like_id | Delete Comment             |
