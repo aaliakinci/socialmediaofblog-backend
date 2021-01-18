@@ -35,7 +35,7 @@ const createToken = async (user) => {
 //createdArticle Add To User
 const addArticleToUser = async (article_id, user_id) => {
 	try {
-		const user = User.findByIdAndUpdate(
+		const user = await User.findByIdAndUpdate(
 			user_id,
 			{ $push: { articles: article_id } },
 			{ new: true },
@@ -48,7 +48,7 @@ const addArticleToUser = async (article_id, user_id) => {
 //createComment Add To User
 const addCommentToUser = async (comment_id, user_id) => {
 	try {
-		const user = User.findByIdAndUpdate(
+		const user = await User.findByIdAndUpdate(
 			user_id,
 			{ $push: { comments: comment_id } },
 			{ new: true },
@@ -61,7 +61,7 @@ const addCommentToUser = async (comment_id, user_id) => {
 //Remove Comment To User
 const removeCommentToUser = async (comment_id, user_id) => {
 	try {
-		const user = User.findByIdAndUpdate(
+		const user = await User.findByIdAndUpdate(
 			user_id,
 			{ $pull: { comments: comment_id } },
 			{ new: true },
@@ -74,12 +74,25 @@ const removeCommentToUser = async (comment_id, user_id) => {
 //createLike Add To User
 const addLikeToUser = async(like_id,user_id) => {
 	try {
-		const user = User.findByIdAndUpdate(user_id,{$push:{likes:like_id}},{new:true});
+		const user = await User.findByIdAndUpdate(user_id,{$push:{likes:like_id}},{new:true});
 		return user
 	} catch (error) {
 		console.log(error);
 	}
 }
+//Remove Comment To User
+const removeLikeToUser = async (like_id, user_id) => {
+	try {
+		const user = await User.findByIdAndUpdate(
+			user_id,
+			{ $pull: { likes: like_id } },
+			{ new: true },
+		);
+		return user;
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 
 
@@ -90,7 +103,7 @@ const addLikeToUser = async(like_id,user_id) => {
 //Comment Add To Article
 const addCommentToArticle = async (comment_id, article_id) => {
 	try {
-		const article = Article.findByIdAndUpdate(
+		const article = await Article.findByIdAndUpdate(
 			article_id,
 			{ $push: { comments: comment_id } },
 			{ new: true },
@@ -103,7 +116,7 @@ const addCommentToArticle = async (comment_id, article_id) => {
 //Comment Remove To Article
 const removeCommentToArticle = async (comment_id, article_id) => {
 	try {
-		const article = Article.findByIdAndUpdate(
+		const article = await Article.findByIdAndUpdate(
 			article_id,
 			{ $pull: { comments: comment_id } },
 			{ new: true },
@@ -116,12 +129,24 @@ const removeCommentToArticle = async (comment_id, article_id) => {
 // Like Add To Article
 const addLikeToArticle = async(like_id,article_id) => {
 	try {
-		const article = Article.findByIdAndUpdate(article_id,{$push:{likes:like_id}},{new:true});
+		const article = await Article.findByIdAndUpdate(article_id,{$push:{likes:like_id}},{new:true});
 		return article
 	} catch (error) {
 		console.log(error);
 	}
-}
+};
+const removeLikeToArticle = async (like_id, article_id) => {
+	try {
+		const article = await Article.findByIdAndUpdate(
+			article_id,
+			{ $pull: { likes: like_id } },
+			{ new: true },
+		);
+		return article;
+	} catch (error) {
+		console.log(error);
+	}
+};
 //Article increment-decrement reactionPoint (need send boolean true or false increment(true) or decrement(false))
 const mathReactionPoint = async (article_id, which) => {
 	const { reactionPoint } = await Article.findById(article_id);
@@ -148,5 +173,7 @@ module.exports = {
 	removeCommentToUser,
 	removeCommentToArticle,
 	addLikeToArticle,
-	addLikeToUser
+	addLikeToUser,
+	removeLikeToUser,
+	removeLikeToArticle
 };
