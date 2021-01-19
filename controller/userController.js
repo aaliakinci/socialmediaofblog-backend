@@ -86,6 +86,26 @@ const unBanUserByUserId = async (req, res, next) => {
 		console.log(error);
 	}
 };
+// upgrade  User To Admin
+const userToAdmin = async (req, res, next) => {
+	try {
+		const { user_id } = req.body;
+		const userToAdmin = await User.findByIdAndUpdate(user_id, { isAdmin: true }, { new: true });
+		res.status(200).json(userToAdmin);
+	} catch (error) {
+		console.log(error);
+	}
+};
+// upgrade  Admin To User
+const adminToUser = async (req, res, next) => {
+	try {
+		const { user_id } = req.body;
+		const adminToUser = await User.findByIdAndUpdate(user_id, { isAdmin: false }, { new: true });
+		res.status(200).json(adminToUser);
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 //User Follow Controller (follow a to b)
 const follow = async (req, res, next) => {
@@ -134,5 +154,7 @@ module.exports = {
 	unFollow,
 	updateUserByUserId,
 	banUserByUserId,
-	unBanUserByUserId
+	unBanUserByUserId,
+	adminToUser,
+	userToAdmin
 };

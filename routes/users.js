@@ -25,10 +25,12 @@ router.post('/follow', userController.follow);
 router.post('/unFollow',userController.unFollow);
 
 //update user
-router.put('/:user_id',authorizationMiddleware,userController.updateUserByUserId)
+router.put('/:user_id',authorizationMiddleware,userController.updateUserByUserId);
 
-router.post('/banUser',userController.banUserByUserId)
-router.post('/unBanUser',userController.unBanUserByUserId)
+router.post('/banUser',adminAuthentication,userController.banUserByUserId);
+router.post('/unBanUser',adminAuthentication,userController.unBanUserByUserId);
+router.post('/userToAdmin',userController.userToAdmin);
+router.post('/adminToUser',userController.adminToUser);
 
 
 
