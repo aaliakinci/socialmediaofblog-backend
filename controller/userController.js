@@ -1,6 +1,7 @@
 const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
-const { findUserForLogin,createToken } = require('./functionArea');
+const { findUserForLogin, createToken } = require('./functionArea');
+const createError = require('http-errors');
 
 //User Register Controller
 const register = (req, res, next) => {
@@ -41,46 +42,97 @@ const register = (req, res, next) => {
 //User Login Controller
 const login = async (req, res, next) => {
 	try {
-		const {username,password} = req.body
+		const { username, password } = req.body;
 		const user = await findUserForLogin(username, password);
-		if(user.isBanned===true)
-		{
+		if (user.isBanned === true) {
 			throw createError(403, 'Hesabınız askıya alınmıştır lütfen iletişime geçiniz.');
 		}
 		const token = await createToken(user);
-		res.status(200).json({user,token});
+		res.status(200).json({ user, token });
+	} catch (error) {
+		res.json(error);
+	}
+};
+//User Update Controller
+const updateUserByUserId = async (req, res, next) => {
+	try {
+		const user_id = req.params.user_id;
+		if (req.user._id === user_id) {
+			const updatedUser = await User.findByIdAndUpdate(user_id, req.body, { new: true });
+			res.status(200).json(updatedUser);
+		}
+		console.log('yanlış');
+	} catch (error) {
+		console.log(error);
+	}
+};
+// Ban User
+const banUserByUserId = async (req, res, next) => {
+	try {
+		const { user_id } = req.body;
+		const banUser = await User.findByIdAndUpdate(user_id, { isBanned: true }, { new: true });
+		res.status(200).json(banUser);
+	} catch (error) {
+		console.log(error);
+	}
+};
+// Ban User
+const unBanUserByUserId = async (req, res, next) => {
+	try {
+		const { user_id } = req.body;
+		const banUser = await User.findByIdAndUpdate(user_id, { isBanned: false }, { new: true });
+		res.status(200).json(banUser);
 	} catch (error) {
 		console.log(error);
 	}
 };
 
 //User Follow Controller (follow a to b)
-const follow = async(req,res,next) => {
-try {
-	const {user_id_a,user_id_b} = req.body;
-	const user_a =  await User.findByIdAndUpdate(user_id_a,{$push:{follows:user_id_b}},{new:true});
-	const user_b =  await User.findByIdAndUpdate(user_id_b,{$push:{followers:user_id_a}},{new:true});
-	res.status(200).json({user_a,user_b})
-} catch (error) {
-	console.log(error);
-}
-}
+const follow = async (req, res, next) => {
+	try {
+		const { user_id_a, user_id_b } = req.body;
+		const user_a = await User.findByIdAndUpdate(
+			user_id_a,
+			{ $push: { follows: user_id_b } },
+			{ new: true },
+		);
+		const user_b = await User.findByIdAndUpdate(
+			user_id_b,
+			{ $push: { followers: user_id_a } },
+			{ new: true },
+		);
+		res.status(200).json({ user_a, user_b });
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 //User unFollow Controller (unFollow a to b )
-const unFollow = async(req,res,next) => {
+const unFollow = async (req, res, next) => {
 	try {
-		const {user_id_a,user_id_b} = req.body
-		const user_a = await User.findByIdAndUpdate(user_id_a,{$pull:{follows:user_id_b}},{new:true});
-		const user_b = await User.findByIdAndUpdate(user_id_b,{$pull:{followers:user_id_a}},{new:true});
-		res.status(200).json({user_a,user_b});
+		const { user_id_a, user_id_b } = req.body;
+		const user_a = await User.findByIdAndUpdate(
+			user_id_a,
+			{ $pull: { follows: user_id_b } },
+			{ new: true },
+		);
+		const user_b = await User.findByIdAndUpdate(
+			user_id_b,
+			{ $pull: { followers: user_id_a } },
+			{ new: true },
+		);
+		res.status(200).json({ user_a, user_b });
 	} catch (error) {
-		console.log(error)
+		console.log(error);
 	}
-}
+};
 
 module.exports = {
 	register,
 	login,
 	follow,
-	unFollow
+	unFollow,
+	updateUserByUserId,
+	banUserByUserId,
+	unBanUserByUserId
 };

@@ -1,5 +1,3 @@
-const User = require("../models/User");
-
 const adminAuthentication = async (req,res,next)=>{
 	try {
 		const user = req.user;
