@@ -7,8 +7,8 @@
 | url/users/register    | post      | name,surname,username,password,phoneNumber,email,gender | Register User                                         |
 | url/users/login       | post      | username,password                                       | Login User turn Token                                 |
 | url/users/follow      | post      | user_id_a,user_id_b                                     | Follow user a to b                                    |
-| url/users/follow      | post      | user_id_a,user_id_b                                     | unFollow user a to b                                  |
-| url/users/:user_id    | put       | name,surname,username,password,phoneNumber,email,gender | Update user by user_id if user_id===header.token.\_id |
+| url/users/unFollow    | post      | user_id_a,user_id_b                                     | unFollow user a to b                                  |
+| url/users/:user_id    | put       | name,surname,username,password,phoneNumber,email,gender | Update user by user_id if user_id===header.token._id  |
 | url/users/banUser     | post      | user_id                                                 | ban user                                              |
 | url/users/unBanUser   | post      | user_id                                                 | unBan user                                            |
 | url/users/userToAdmin | post      | user_id                                                 | upgrade user to admin                                 |
@@ -24,6 +24,7 @@
 | url/articles/byUser/:user_id | get       |                                            | get Articles by User Id                                      |
 | url/articles/:article_id     | get       |                                            | get Article by Article Id                                    |
 | url/articles/followsArticle  | get       |                                            | get FollowsArticle                                           |
+
 
 # Comment
 
