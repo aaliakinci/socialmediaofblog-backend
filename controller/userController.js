@@ -16,6 +16,7 @@ const register = (req, res, next) => {
 		profilPicture,
 		birtDate,
 	} = req.body;
+	console.log(req.file.path);
 	bcrypt.hash(password, 8, (err, hash) => {
 		const user = new User({
 			name,
@@ -25,7 +26,7 @@ const register = (req, res, next) => {
 			email,
 			password: hash,
 			gender,
-			profilPicture: '167.99.132.119:4000/' + req.file.path,
+			profilPicture: 'http://167.99.132.119:4000/'+ req.file.path,
 			birtDate,
 		});
 		const promise = user.save();
