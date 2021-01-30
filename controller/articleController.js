@@ -129,7 +129,7 @@ const getArticlesByUser_id = async (req, res, next) => {
 			res.status(200).json(data);
 		})
 		.catch((err) => {
-			console.log(err);
+			res.json(err);
 		});
 };
 
@@ -202,7 +202,7 @@ const getArticleByArticle_id = (req, res, next) => {
 			res.status(200).json(data);
 		})
 		.catch((err) => {
-			console.log(err);
+			res.json(err);
 		});
 };
 
@@ -260,7 +260,7 @@ const followsArticle = async (req, res, next) => {
 	//Need Sort
 	res.json(userFollows[0].articles);
 	} catch (error) {
-		console.log(error);
+		res.json(error);
 	}
 };
 
@@ -282,7 +282,7 @@ const createArticle = async (req, res, next) => {
 		});
 		res.status(200).json({ createdArticle });
 	} catch (error) {
-		console.log(error);
+		res.json(error);
 	}
 };
 

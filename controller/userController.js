@@ -16,8 +16,8 @@ const register = (req, res, next) => {
 		profilPicture,
 		birtDate,
 	} = req.body;
-	console.log(req.file.path);
-	bcrypt.hash(password, 8, (err, hash) => {
+  
+ 	bcrypt.hash(password, 8, (err, hash) => {
 		const user = new User({
 			name,
 			surname,
@@ -64,7 +64,7 @@ const updateUserByUserId = async (req, res, next) => {
 		}
 		console.log('yanlış');
 	} catch (error) {
-		console.log(error);
+		res.json(error);
 	}
 };
 // Ban User
@@ -74,7 +74,7 @@ const banUserByUserId = async (req, res, next) => {
 		const banUser = await User.findByIdAndUpdate(user_id, { isBanned: true }, { new: true });
 		res.status(200).json(banUser);
 	} catch (error) {
-		console.log(error);
+		res.json(error);
 	}
 };
 // Ban User
@@ -84,7 +84,7 @@ const unBanUserByUserId = async (req, res, next) => {
 		const banUser = await User.findByIdAndUpdate(user_id, { isBanned: false }, { new: true });
 		res.status(200).json(banUser);
 	} catch (error) {
-		console.log(error);
+		res.json(error);
 	}
 };
 // upgrade  User To Admin
@@ -94,7 +94,7 @@ const userToAdmin = async (req, res, next) => {
 		const userToAdmin = await User.findByIdAndUpdate(user_id, { isAdmin: true }, { new: true });
 		res.status(200).json(userToAdmin);
 	} catch (error) {
-		console.log(error);
+		res.json(error);
 	}
 };
 // upgrade  Admin To User
@@ -104,7 +104,7 @@ const adminToUser = async (req, res, next) => {
 		const adminToUser = await User.findByIdAndUpdate(user_id, { isAdmin: false }, { new: true });
 		res.status(200).json(adminToUser);
 	} catch (error) {
-		console.log(error);
+		res.json(error);
 	}
 };
 
@@ -124,7 +124,7 @@ const follow = async (req, res, next) => {
 		);
 		res.status(200).json({ user_a, user_b });
 	} catch (error) {
-		console.log(error);
+		res.json(error);
 	}
 };
 
@@ -144,7 +144,7 @@ const unFollow = async (req, res, next) => {
 		);
 		res.status(200).json({ user_a, user_b });
 	} catch (error) {
-		console.log(error);
+		res.json(error);
 	}
 };
 
