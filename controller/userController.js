@@ -25,7 +25,7 @@ const register = (req, res, next) => {
 			email,
 			password: hash,
 			gender,
-			profilPicture: process.env.POST_URL + req.file.path,
+			profilPicture: '167.99.132.119:4000/' + req.file.path,
 			birtDate,
 		});
 		const promise = user.save();
