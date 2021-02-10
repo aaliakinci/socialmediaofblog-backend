@@ -15,7 +15,6 @@ const register = async (req, res, next) => {
 			password,
 			gender,
 			profilPicture,
-			birtDate,
 		} = req.body;
 		bcrypt.hash(password, 8, async (err, hash) => {
 			try {
@@ -28,9 +27,7 @@ const register = async (req, res, next) => {
 					password: hash,
 					gender,
 					profilPicture:
-						'http://localhost:4000/' + req.file.path ||
-						'http://localhost:4000/public/images/profilePictures/defaultProfilePicture.png',
-					birtDate,
+						'http://167.99.132.119:4000/' + req.file.path
 				});
 				const createdUser = await user.save();
 				const token = await createToken(createdUser);
