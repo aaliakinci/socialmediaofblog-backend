@@ -13,7 +13,7 @@
 | url/users/unBanUser   | post      | user_id                                                 | unBan user                                            |
 | url/users/userToAdmin | post      | user_id                                                 | upgrade user to admin                                 |
 | url/users/adminTouser | post      | user_id                                                 | admin to user                                         |
-| url/users/:username   | get       | user_id                                                 | get user by username                                  |
+| url/users/:username   | get       |                                                         | get user by username                                  |
 
 # Article
 
@@ -36,12 +36,12 @@
 
 # Like
 
-| Route              | Http Verb | Req Body                   | Description                |
-| ------------------ | --------- | -------------------------- | -------------------------- |
+| Route                   | Http Verb | Req Body                   | Description                |
+| ----------------------- | --------- | -------------------------- | -------------------------- |
 | url/likes/user/:user_id | get       |                            | Get Articles By User Likes |
-| url/likes/:article_id | get       |                            | Get Likes By article_id |
-| url/likes/create   | post      | user_id,article_id         | Create Comment             |
-| url/likes/delete   | post      | user_id,article_id,like_id | Delete Comment             |
+| url/likes/:article_id   | get       |                            | Get Likes By article_id    |
+| url/likes/create        | post      | user_id,article_id         | Create Comment             |
+| url/likes/delete        | post      | user_id,article_id,like_id | Delete Comment             |
 
 # Hashtag
 
