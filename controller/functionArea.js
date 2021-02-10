@@ -27,8 +27,9 @@ const findUserForLogin = async (username, password) => {
 
 //Login Create JsonWebToken
 const createToken = async (user) => {
+	if(user.isBanned===true) throw createError(400,'Hesabınız askıya alınmıştır ! Lütfen iletişime geçiniz')
 	const token = await jwt.sign(
-		{ _id: user._id, username: user.username, isAdmin: user.isAdmin, isEditor: user.isEditor },
+		{ _id: user._id, username: user.username, isAdmin: user.isAdmin, isEditor: user.isEditor,isBanned:user.isBanned },
 		process.env.JWT_SECRET_KEY,
 		{ expiresIn: '2d' },
 	);

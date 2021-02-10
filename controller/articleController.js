@@ -5,7 +5,7 @@ const Article = require('../Models/Article');
 const User = require('../Models/User');
 
 //functions
-const { addArticleToUser,addArticleToHashtags } = require('./functionArea');
+const { addArticleToUser, addArticleToHashtags } = require('./functionArea');
 
 //Get All Article
 const getAllArticle = (req, res, next) => {
@@ -176,6 +176,7 @@ const getArticleByArticle_id = (req, res, next) => {
 					_id: '$_id',
 					title: '$title',
 					description: '$description',
+					content:'$content',
 					createAt: '$createAt',
 				},
 				user: {
@@ -191,6 +192,7 @@ const getArticleByArticle_id = (req, res, next) => {
 				_id: '$_id._id',
 				title: '$_id.title',
 				description: '$_id.description',
+				content:'$_id.content',
 				createAt: '$_id.createAt',
 				user: '$user',
 				comments: '$comments',
@@ -211,54 +213,54 @@ const followsArticle = async (req, res, next) => {
 	try {
 		const { user_id } = req.body;
 		const userFollows = await User.aggregate([
-		{
-			$match: {
-				_id: mongoose.Types.ObjectId(user_id),
-			},
-		},
-		{
-			$lookup: {
-				from: 'users',
-				localField: 'follows',
-				foreignField: '_id',
-				as: 'follows',
-			},
-		},
-		{
-			$unwind: {
-				path: '$follows',
-			},
-		},
-		{
-			$lookup: {
-				from: 'articles',
-				localField: 'follows.articles',
-				foreignField: '_id',
-				as: 'articles',
-			},
-		},
-		{
-			$unwind: {
-				path: '$articles',
-			},
-		},
-		{
-			$group: {
-				_id: {_id:'$_id',},
-				articles: {
-					$push: '$articles',
+			{
+				$match: {
+					_id: mongoose.Types.ObjectId(user_id),
 				},
 			},
-		},
-		{
-			$project: {
-				_id:'$_id._id',
-				articles: '$articles',
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'follows',
+					foreignField: '_id',
+					as: 'follows',
+				},
 			},
-		},
-	]);
-	//Need Sort
-	res.json(userFollows[0].articles);
+			{
+				$unwind: {
+					path: '$follows',
+				},
+			},
+			{
+				$lookup: {
+					from: 'articles',
+					localField: 'follows.articles',
+					foreignField: '_id',
+					as: 'articles',
+				},
+			},
+			{
+				$unwind: {
+					path: '$articles',
+				},
+			},
+			{
+				$group: {
+					_id: { _id: '$_id' },
+					articles: {
+						$push: '$articles',
+					},
+				},
+			},
+			{
+				$project: {
+					_id: '$_id._id',
+					articles: '$articles',
+				},
+			},
+		]);
+		//Need Sort
+		res.json(userFollows[0].articles);
 	} catch (error) {
 		res.json(error);
 	}
@@ -267,18 +269,20 @@ const followsArticle = async (req, res, next) => {
 //Create Article
 const createArticle = async (req, res, next) => {
 	try {
-		const { title, description, content, user_id, hashtags } = req.body;
+		const { title, description, content, user_id, hashtags, contentImage } = req.body;
 		const article = new Article({
 			title,
 			description,
 			content,
 			user_id,
 			hashtags,
+			contentImage: 'http://localhost:4000/' + req.file.path,
 		});
+		console.log(contentImage);
 		const createdArticle = await article.save();
 		const importUser = await addArticleToUser(createdArticle._id, user_id);
 		createdArticle.hashtags.forEach(async (element) => {
-			await addArticleToHashtags(element,createdArticle._id)
+			await addArticleToHashtags(element, createdArticle._id);
 		});
 		res.status(200).json({ createdArticle });
 	} catch (error) {

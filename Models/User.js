@@ -36,6 +36,7 @@ const UserSchema = new Schema({
 	},
 	profilPicture: {
 		type: String,
+	  default: 'defaultProfilePicture.png'
 	},
 	birthDate: {
 		type: Date,
@@ -52,31 +53,40 @@ const UserSchema = new Schema({
 		type: Boolean,
 		default: false,
 	},
-	isBanned:{
-		type:Boolean,
-		default:false
+	isBanned: {
+		type: Boolean,
+		default: false,
 	},
-	follows: [{
-		type: mongoose.Types.ObjectId,
-		ref: 'User',
-	}],
-	followers: [{
-		type: mongoose.Types.ObjectId,
-		ref: 'User',
-	}],
+	follows: [
+		{
+			type: mongoose.Types.ObjectId,
+			ref: 'User',
+		},
+	],
+	followers: [
+		{
+			type: mongoose.Types.ObjectId,
+			ref: 'User',
+		},
+	],
 	articles: [
 		{
 			type: mongoose.Types.ObjectId,
 			ref: 'Article',
 		},
 	],
-	comments: [{
-		type: mongoose.Types.ObjectId,
-		ref: 'Comment',
-	}],
-	likes: [{
-		type: mongoose.Types.ObjectId,
-		ref: 'Like',
-	}],
+	comments: [
+		{
+			type: mongoose.Types.ObjectId,
+			ref: 'Comment',
+		},
+	],
+	likes: [
+		{
+			type: mongoose.Types.ObjectId,
+			ref: 'Like',
+		},
+	],
 });
+
 module.exports = mongoose.model('user', UserSchema);

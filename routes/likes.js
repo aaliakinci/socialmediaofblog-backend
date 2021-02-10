@@ -2,11 +2,15 @@ const router = require('express').Router();
 
 const likeController = require('../controller/likeController')
 
+router.get('/user/:user_id',likeController.getArticlesByUserId)
+
+router.get('/:article_id',likeController.getLikesByArticleId)
 
 router.post('/create',likeController.createLike);
 
+
 router.delete('/delete',likeController.deleteLike);
 
-router.get('/:user_id/',likeController.getArticlesByUserId)
+
 
 module.exports=router

@@ -35,7 +35,7 @@ const ArticleSchema = new Schema({
 	user_id: {
 		type: mongoose.Types.ObjectId,
 		ref: 'User',
-		require: true,
+		required: true,
 	},
 	comments: {
 		type: mongoose.Types.ObjectId,

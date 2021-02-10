@@ -34,7 +34,52 @@ const createComment = async(req,res,next) => {
 const getCommentsByArticleId = async(req,res,next) => {
 	try {
 		const id = req.params.article_id
-		const comments = await Comment.find({article_id:id}).sort({createAt:-1});
+		const comments = await Comment.aggregate([
+			{
+				$match:{
+					article_id: mongoose.Types.ObjectId(id),
+				}
+			},
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'user_id',
+					foreignField: '_id',
+					as: 'user',
+				},
+			},{
+				$unwind: {
+					path: '$user',
+				},
+			},
+			{
+				$group: {
+					_id: {
+						_id: '$_id',
+						article_id: '$article_id',
+						description: '$description',
+						createAt: '$createAt',
+					},
+					user: {
+						$push: '$user',
+					},
+				},
+			},
+			{
+				$project: {
+					_id: '$_id._id',
+					article_id: '$_id.article_id',
+					description: '$_id.description',
+					createAt: '$_id.createAt',
+					user: '$user',
+				},
+			},
+			{
+				$sort: {
+					createAt: -1,
+				},
+			},
+		])
 		res.status(200).json(comments);
 	} catch (error) {
 		console.log(error);

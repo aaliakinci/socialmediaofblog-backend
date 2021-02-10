@@ -4,6 +4,7 @@ const router = express.Router();
 //controller
 const articleController = require('../controller/articleController')
 
+const upload = require('../middleware/uploadImageArticleMiddileware')
 
 
 //Get All Article
@@ -24,7 +25,7 @@ router.get('/byUser/:user_id',articleController.getArticlesByUser_id)
 
 
 //Create Article
-router.post('/create',articleController.createArticle);
+router.post('/create',upload.single('contentImage'),articleController.createArticle);
 
 
 module.exports=router;

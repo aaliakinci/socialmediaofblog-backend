@@ -12,18 +12,15 @@ const upload = require('../middleware/uploadImageMiddleware');
 const authorizationMiddleware = require('../middleware/authorizationMiddleware');
 const adminAuthentication = require('../middleware/adminAuthorizationMiddleware');
 
+
+//Get User by UserName
+router.get('/:username',userController.getUserByUsername)
+
 /* Register User */
 router.post('/register', upload.single('profilPicture'), userController.register);
 
 /* Login User */
 router.post('/login', userController.login);
-
-
-router.post('/deneme',(req,res,next)=>{
-	console.log(req.body);
-})
-
-
 
 //Follow
 router.post('/follow', userController.follow);

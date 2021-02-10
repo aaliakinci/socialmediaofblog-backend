@@ -4,40 +4,54 @@ const { findUserForLogin, createToken } = require('./functionArea');
 const createError = require('http-errors');
 
 //User Register Controller
-const register = (req, res, next) => {
-	const {
-		name,
-		surname,
-		username,
-		phoneNumber,
-		email,
-		password,
-		gender,
-		profilPicture,
-		birtDate,
-	} = req.body;
-  
- 	bcrypt.hash(password, 8, (err, hash) => {
-		const user = new User({
+const register = async (req, res, next) => {
+	try {
+		const {
 			name,
 			surname,
 			username,
 			phoneNumber,
 			email,
-			password: hash,
+			password,
 			gender,
-			profilPicture: 'http://167.99.132.119:4000/'+ req.file.path,
+			profilPicture,
 			birtDate,
-		});
-		const promise = user.save();
-		promise
-			.then((data) => {
-				res.status(200).json(data);
-			})
-			.catch((err) => {
+		} = req.body;
+		bcrypt.hash(password, 8, async (err, hash) => {
+			try {
+				const user = new User({
+					name,
+					surname,
+					username,
+					phoneNumber,
+					email,
+					password: hash,
+					gender,
+					profilPicture:
+						'http://localhost:4000/' + req.file.path ||
+						'http://localhost:4000/public/images/profilePictures/defaultProfilePicture.png',
+					birtDate,
+				});
+				const createdUser = await user.save();
+				const token = await createToken(createdUser);
+				res.status(200).json({ token });
+			} catch (err) {
 				res.json(err);
-			});
-	});
+			}
+		});
+	} catch (error) {
+		res.json({ message: error.message });
+	}
+};
+//Get User by Username
+const getUserByUsername = async (req, res, next) => {
+	try {
+		const username = req.params.username;
+		const user = await User.find({ username });
+		res.json(user);
+	} catch (error) {
+		res.json(error);
+	}
 };
 
 //User Login Controller
@@ -49,7 +63,7 @@ const login = async (req, res, next) => {
 			throw createError(403, 'Hesabınız askıya alınmıştır lütfen iletişime geçiniz.');
 		}
 		const token = await createToken(user);
-		res.status(200).json({ user, token });
+		res.status(200).json({ token });
 	} catch (error) {
 		res.json(error);
 	}
@@ -157,5 +171,6 @@ module.exports = {
 	banUserByUserId,
 	unBanUserByUserId,
 	adminToUser,
-	userToAdmin
+	userToAdmin,
+	getUserByUsername,
 };
