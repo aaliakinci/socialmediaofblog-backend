@@ -41,9 +41,11 @@ const ArticleSchema = new Schema({
 		type: mongoose.Types.ObjectId,
 		ref: 'Comment',
 	},
-	likes: {
-		type: mongoose.Types.ObjectId,
-		ref: 'Like',
-	},
+	likes: [
+		{
+			type: mongoose.Types.ObjectId,
+			ref: 'Like',
+		}
+	],
 });
 module.exports = mongoose.model('article', ArticleSchema);
