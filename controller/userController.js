@@ -118,6 +118,20 @@ const adminToUser = async (req, res, next) => {
 	}
 };
 
+const isFollow = async (req,res,next) => {
+	 try {
+		const {cookie_user_id,user_id}=req.body
+	  const user=await User.findById(cookie_user_id);
+		const isFollowing=user.follows.indexOf(user_id);
+		//isFollowwing is true ===0 , isFolowwing is false ===-1
+		res.json(isFollowing)
+	 } catch (error) {
+		 console.log(error);
+	 }
+}
+
+
+
 //User Follow Controller (follow a to b)
 const follow = async (req, res, next) => {
 	try {
@@ -169,4 +183,5 @@ module.exports = {
 	adminToUser,
 	userToAdmin,
 	getUserByUsername,
+	isFollow
 };

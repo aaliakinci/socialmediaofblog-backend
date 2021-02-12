@@ -19,6 +19,8 @@ router.get('/:username',userController.getUserByUsername)
 /* Register User */
 router.post('/register', upload.single('profilPicture'), userController.register);
 
+router.post('/isFollow',userController.isFollow)
+
 /* Login User */
 router.post('/login', userController.login);
 
