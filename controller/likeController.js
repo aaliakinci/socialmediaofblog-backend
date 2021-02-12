@@ -1,6 +1,6 @@
 //models
 const Like = require('../Models/Like');
- 
+const Article = require('../Models/Article');
 
 //mongoose
 const mongoose = require('mongoose')
@@ -10,13 +10,22 @@ const {addLikeToArticle,addLikeToUser,removeLikeToUser,removeLikeToArticle} = re
 
 const getLikesByArticleId = async (req,res,next) => {
 try {
-	console.log('girdim');
 	const id = req.params.article_id
 	const likes = await Like.find({article_id:id});
 	res.json(likes);
 } catch (error) {
 	res.json(error);
 }
+}
+
+const isLike = async(req,res,next) => {
+	try {
+		const {user_id,article_id}=req.body
+		const likes = await Like.find({user_id,article_id});
+		res.json(likes);
+	} catch (error) {
+		res.json(error);
+	}
 }
 
 const getArticlesByUserId = async (req,res,next) => {
@@ -99,6 +108,6 @@ module.exports = {
 	createLike,
 	deleteLike,
 	getArticlesByUserId,
-	getLikesByArticleId
-
+	getLikesByArticleId,
+	isLike
 };
