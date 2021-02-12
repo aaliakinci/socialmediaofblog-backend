@@ -4,7 +4,7 @@ const Article = require('../Models/Article');
 
 const mongoose = require('mongoose');
 
-const getHashtags = async () => {
+const getHashtags = async (req,res,next) => {
 	try {
 		const hashtags = await Hashtag.find({});
 		res.json(hashtags);
