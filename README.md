@@ -36,12 +36,13 @@
 
 # Like
 
-| Route                   | Http Verb | Req Body                   | Description                |
-| ----------------------- | --------- | -------------------------- | -------------------------- |
-| url/likes/user/:user_id | get       |                            | Get Articles By User Likes |
-| url/likes/:article_id   | get       |                            | Get Likes By article_id    |
-| url/likes/create        | post      | user_id,article_id         | Create Comment             |
-| url/likes/delete        | post      | user_id,article_id,like_id | Delete Comment             |
+| Route                   | Http Verb | Req Body                   | Description                    |
+| ----------------------- | --------- | -------------------------- | ------------------------------ |
+| url/likes/user/:user_id | get       |                            | Get Articles By User Likes     |
+| url/likes/:article_id   | get       |                            | Get Likes By article_id        |
+| url/likes/create        | post      | user_id,article_id         | Create Comment                 |
+| url/likes/delete        | post      | user_id,article_id,like_id | Delete Comment                 |
+| url/likes/isLike        | post      | user_id,article_id         | user_id is like this article ? |
 
 # Hashtag
 
@@ -49,4 +50,4 @@
 | ------------------------ | --------- | -------- | -------------------------- |
 | url/hashtags/create      | post      | body     | Create Hashtag             |
 | url/hashtags/:hashtag_id | get       |          | Get Articles By Hashtag_id |
-| url/hashtags/      | get      | body     | Get All Hashtags            |
+| url/hashtags/            | get       | body     | Get All Hashtags           |
