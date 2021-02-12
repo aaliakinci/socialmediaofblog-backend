@@ -49,3 +49,4 @@
 | ------------------------ | --------- | -------- | -------------------------- |
 | url/hashtags/create      | post      | body     | Create Hashtag             |
 | url/hashtags/:hashtag_id | get       |          | Get Articles By Hashtag_id |
+| url/hashtags/      | get      | body     | Get All Hashtags            |

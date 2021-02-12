@@ -2,10 +2,16 @@
 const Hashtag = require('../Models/Hashtag');
 const Article = require('../Models/Article');
 
-
-
 const mongoose = require('mongoose');
 
+const getHashtags = async () => {
+	try {
+		const hashtags = await Hashtag.find({});
+		res.json(hashtags);
+	} catch (error) {
+		res.json(error);
+	}
+};
 
 const createHashtag = async (req, res, next) => {
 	try {
@@ -16,7 +22,7 @@ const createHashtag = async (req, res, next) => {
 		const createdHashtag = await hashtag.save();
 		res.status(200).json(createdHashtag);
 	} catch (error) {
-		res.json(error)
+		res.json(error);
 	}
 };
 
@@ -30,6 +36,7 @@ const getArticlesByHashtagId = async (req, res, next) => {
 };
 
 module.exports = {
+	getHashtags,
 	createHashtag,
-	getArticlesByHashtagId
+	getArticlesByHashtagId,
 };
