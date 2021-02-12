@@ -22,6 +22,7 @@ const isLike = async(req,res,next) => {
 	try {
 		const {user_id,article_id}=req.body
 		const likes = await Like.find({user_id,article_id});
+		console.log(likes);
 		res.json(likes);
 	} catch (error) {
 		res.json(error);
