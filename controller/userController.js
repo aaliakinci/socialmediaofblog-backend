@@ -3,6 +3,19 @@ const bcrypt = require('bcryptjs');
 const { findUserForLogin, createToken } = require('./functionArea');
 const createError = require('http-errors');
 
+
+
+//Get All User 
+const getAllUser = async (req,res,next) => {
+	try {
+		const users = await User.find({})
+		res.json(users)
+	} catch (error) {
+		res.json(error);
+	}
+}
+
+
 //User Register Controller
 const register = async (req, res, next) => {
 	try {
@@ -173,6 +186,7 @@ const unFollow = async (req, res, next) => {
 };
 
 module.exports = {
+	getAllUser,
 	register,
 	login,
 	follow,

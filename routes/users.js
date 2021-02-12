@@ -13,6 +13,9 @@ const authorizationMiddleware = require('../middleware/authorizationMiddleware')
 const adminAuthentication = require('../middleware/adminAuthorizationMiddleware');
 
 
+//Get All Users 
+router.get('/',userController.getAllUser)
+
 //Get User by UserName
 router.get('/:username',userController.getUserByUsername)
 
