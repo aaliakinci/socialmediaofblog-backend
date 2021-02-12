@@ -1,6 +1,5 @@
 //models
 const Like = require('../Models/Like');
-const Article = require('../Models/Article');
 
 //mongoose
 const mongoose = require('mongoose')
@@ -22,7 +21,6 @@ const isLike = async(req,res,next) => {
 	try {
 		const {user_id,article_id}=req.body
 		const likes = await Like.find({user_id,article_id});
-		console.log(likes);
 		res.json(likes);
 	} catch (error) {
 		res.json(error);
