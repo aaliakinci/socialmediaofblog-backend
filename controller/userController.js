@@ -26,8 +26,7 @@ const register = async (req, res, next) => {
 					email,
 					password: hash,
 					gender,
-					profilPicture:
-						'http://167.99.132.119:4000/' + req.file.path
+					profilPicture:'http://167.99.132.119:4000/' + req.file.path
 				});
 				const createdUser = await user.save();
 				const token = await createToken(createdUser);
