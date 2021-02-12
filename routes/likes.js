@@ -5,8 +5,7 @@ const likeController = require('../controller/likeController')
 router.get('/user/:user_id',likeController.getArticlesByUserId)
 
 
-router.post('/isLike',likeController.isLike)
-
+router.get('/isLike',likeController.isLike)
 
 router.get('/:article_id',likeController.getLikesByArticleId)
 
