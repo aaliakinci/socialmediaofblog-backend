@@ -276,7 +276,7 @@ const createArticle = async (req, res, next) => {
 			content,
 			user_id,
 			hashtags,
-			contentImage: 'http://localhost:4000/' + req.file.path,
+			contentImage: 'http://167.99.132.119:4000/' + req.file.path,
 		});
 		console.log(contentImage);
 		const createdArticle = await article.save();
