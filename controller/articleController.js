@@ -135,7 +135,7 @@ const getArticlesByUser_id = async (req, res, next) => {
 //Get Article by Article id
 const getArticleByArticle_id = (req, res, next) => {
 	const id = req.params.article_id;
-
+	console.log('girdim');
 	const promise = Article.aggregate([
 		{
 			$match: {
@@ -175,7 +175,8 @@ const getArticleByArticle_id = (req, res, next) => {
 					_id: '$_id',
 					title: '$title',
 					description: '$description',
-					content:'$content',
+					content: '$content',
+					contentImage:'$contentImage',
 					createAt: '$createAt',
 				},
 				user: {
@@ -191,7 +192,8 @@ const getArticleByArticle_id = (req, res, next) => {
 				_id: '$_id._id',
 				title: '$_id.title',
 				description: '$_id.description',
-				content:'$_id.content',
+				content: '$_id.content',
+				contentImage:'$_id.contentImage',
 				createAt: '$_id.createAt',
 				user: '$user',
 				comments: '$comments',
@@ -210,7 +212,7 @@ const getArticleByArticle_id = (req, res, next) => {
 //Get All follows Article sort by lastTime
 const followsArticle = async (req, res, next) => {
 	try {
-		const {user_id} =req.body
+		const { user_id } = req.body;
 		const userFollows = await User.aggregate([
 			{
 				$match: {
