@@ -211,7 +211,7 @@ const getArticleByArticle_id = (req, res, next) => {
 //Get All follows Article sort by lastTime
 const followsArticle = async (req, res, next) => {
 	try {
-		const { user_id } = req.body;
+		const {user_id} =req.body
 		const userFollows = await User.aggregate([
 			{
 				$match: {

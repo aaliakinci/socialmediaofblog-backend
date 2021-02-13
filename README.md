@@ -14,6 +14,7 @@
 | url/users/userToAdmin | post      | user_id                                                 | upgrade user to admin                                 |
 | url/users/adminTouser | post      | user_id                                                 | admin to user                                         |
 | url/users/:username   | get       |                                                         | get user by username                                  |
+| url/users             | get       |                                                         | Get All Users                                         |
 
 # Article
 
@@ -24,7 +25,7 @@
 | url/articles/reactionPoint   | get       |                                            | Get All Article with User Sort By ReactionPoint and CreateAt |
 | url/articles/byUser/:user_id | get       |                                            | get Articles by User Id                                      |
 | url/articles/:article_id     | get       |                                            | get Article by Article Id                                    |
-| url/articles/followsArticle  | get       |                                            | get FollowsArticle                                           |
+| url/articles/followsArticle  | get       | user_id                                    | get FollowsArticle                                           |
 | url/articles/isFollow        | get       | cookie_user_id ,user_id                    | is cookie user folowwing user_id ?                           |
 
 # Comment

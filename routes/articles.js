@@ -11,7 +11,7 @@ const upload = require('../middleware/uploadImageArticleMiddileware')
 router.get('/',articleController.getAllArticle)
 
 //Get Follows Article 
-router.get('/followsArticle',articleController.followsArticle)
+router.post('/followsArticle',articleController.followsArticle)
 
 //Get All Sort By ReactionPoint
 router.get('/reactionPoint',articleController.getAllArticleSortByReactionPoint)
