@@ -44,25 +44,17 @@ const getArticlesByUserId = async (req,res,next) => {
 			}
 		},
 		{
-			$unwind:{
-				path:'$articles'
-			}
-		},
-		{
-			$group:{
-				_id:{
-					_id:'$_id',
-					user_id:'$user_id',
-					article:'$articles'
-				},
-			}
-		},
-		{
+		 $group:{
+			 _id:{
+				 article:'$articles'
+			 }
+		 }
+		},{
 			$project:{
 				_id:0,
 				article:'$_id.article'
 			}
-		},
+		}	
 	])
 	res.status(200).json(articles);
  } catch (error) {
