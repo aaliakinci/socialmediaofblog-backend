@@ -60,6 +60,13 @@ const getAllArticleSortByReactionPoint = (req, res, next) => {
 				hashtags:'$_id.hashtags',
 				user: '$user',
 			},
+		},{
+			$lookup:{
+				from: 'hashtags',
+				localField: 'hashtags',
+				foreignField: '_id',
+				as: 'hashtag',
+			}
 		},
 		{
 			$sort: {
