@@ -30,7 +30,7 @@ const ArticleSchema = new Schema({
 		{
 			type: mongoose.Types.ObjectId,
 			ref: 'Hashtag',
-		}
+		},
 	],
 	user_id: {
 		type: mongoose.Types.ObjectId,
@@ -45,7 +45,7 @@ const ArticleSchema = new Schema({
 		{
 			type: mongoose.Types.ObjectId,
 			ref: 'Like',
-		}
+		},
 	],
 });
 module.exports = mongoose.model('article', ArticleSchema);
