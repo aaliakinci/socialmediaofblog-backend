@@ -42,6 +42,8 @@ const getAllArticleSortByReactionPoint = (req, res, next) => {
 					title: '$title',
 					description: '$description',
 					createAt: '$createAt',
+					contentImage:'$contentImage',
+					hashtags:'$hashtags'
 				},
 				user: {
 					$push: '$user',
@@ -54,6 +56,8 @@ const getAllArticleSortByReactionPoint = (req, res, next) => {
 				title: '$_id.title',
 				description: '$_id.description',
 				createAt: '$_id.createAt',
+				contentImage:'$_id.contentImage',
+				hashtags:'$_id.hashtags',
 				user: '$user',
 			},
 		},
