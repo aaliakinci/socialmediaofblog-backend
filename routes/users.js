@@ -39,7 +39,7 @@ router.post('/follow', userController.follow);
 router.post('/unFollow',userController.unFollow);
 
 //update user
-router.put('/:user_id',authorizationMiddleware,userController.updateUserByUserId);
+router.post('/update/:user_id',authorizationMiddleware,userController.updateUserByUserId);
 
 router.post('/banUser',adminAuthentication,userController.banUserByUserId);
 router.post('/unBanUser',adminAuthentication,userController.unBanUserByUserId);
