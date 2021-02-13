@@ -2,19 +2,17 @@ const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
 const { findUserForLogin, createToken } = require('./functionArea');
 const createError = require('http-errors');
+const  mongoose = require('mongoose');
 
-
-
-//Get All User 
-const getAllUser = async (req,res,next) => {
+//Get All User
+const getAllUser = async (req, res, next) => {
 	try {
-		const users = await User.find({})
-		res.json(users)
+		const users = await User.find({});
+		res.json(users);
 	} catch (error) {
 		res.json(error);
 	}
-}
-
+};
 
 //User Register Controller
 const register = async (req, res, next) => {
@@ -39,7 +37,7 @@ const register = async (req, res, next) => {
 					email,
 					password: hash,
 					gender,
-					profilPicture:'http://167.99.132.119:4000/' + req.file.path
+					profilPicture: 'http://167.99.132.119:4000/' + req.file.path,
 				});
 				const createdUser = await user.save();
 				const token = await createToken(createdUser);
@@ -131,19 +129,78 @@ const adminToUser = async (req, res, next) => {
 	}
 };
 
-const isFollow = async (req,res,next) => {
-	 try {
-		const {cookie_user_id,user_id}=req.body
-	  const user=await User.findById(cookie_user_id);
-		const isFollowing=user.follows.indexOf(user_id);
+const userFollowers = async (req, res, next) => {
+	try {
+		const { user_id } = req.body;
+		console.log(user_id);
+		const user = await User.aggregate([
+			{
+				$match: {
+					_id: mongoose.Types.ObjectId(user_id)
+				},
+			},
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'followers',
+					foreignField: '_id',
+					as: 'followers',
+				},
+			},
+			{
+				$project:{
+					_id:0,
+					followers:'$followers'
+				}
+			}
+		]);
+		res.json(user)
+	} catch (error) {
+		res.json(error);
+	}
+};
+const userFollows = async (req, res, next) => {
+	try {
+		const { user_id } = req.body;
+		console.log(user_id);
+		const user = await User.aggregate([
+			{
+				$match: {
+					_id: mongoose.Types.ObjectId(user_id)
+				},
+			},
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'follows',
+					foreignField: '_id',
+					as: 'follows',
+				},
+			},
+			{
+				$project:{
+					_id:0,
+					follows:'$follows'
+				}
+			}
+		]);
+		res.json(user)
+	} catch (error) {
+		res.json(error);
+	}
+};
+
+const isFollow = async (req, res, next) => {
+	try {
+		const { cookie_user_id, user_id } = req.body;
+		const user = await User.findById(cookie_user_id);
+		const isFollowing = user.follows.indexOf(user_id);
 		//isFollowwing is true ===0 , isFolowwing is false ===-1
-		res.json(isFollowing)
-	 } catch (error) {
-		 console.log(error);
-	 }
-}
-
-
+		res.json(isFollowing);
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 //User Follow Controller (follow a to b)
 const follow = async (req, res, next) => {
@@ -197,5 +254,7 @@ module.exports = {
 	adminToUser,
 	userToAdmin,
 	getUserByUsername,
-	isFollow
+	isFollow,
+	userFollowers,
+	userFollows
 };

@@ -16,6 +16,11 @@ const adminAuthentication = require('../middleware/adminAuthorizationMiddleware'
 //Get All Users 
 router.get('/',userController.getAllUser)
 
+
+router.post('/userFollowers',userController.userFollowers);
+
+router.post('/userFollows',userController.userFollows);
+
 //Get User by UserName
 router.get('/:username',userController.getUserByUsername)
 
