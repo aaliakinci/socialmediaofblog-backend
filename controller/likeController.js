@@ -52,19 +52,17 @@ const getArticlesByUserId = async (req,res,next) => {
 			$group:{
 				_id:{
 					_id:'$_id',
-					user_id:'$user_id'
+					user_id:'$user_id',
+					article:'$articles'
 				},
-				article:{
-					$push:'$articles'
-				}
 			}
 		},
 		{
 			$project:{
-				_id:'$_id._id',
-				article:'$article'
+				_id:0,
+				article:'$_id.article'
 			}
-		}
+		},
 	])
 	res.status(200).json(articles);
  } catch (error) {

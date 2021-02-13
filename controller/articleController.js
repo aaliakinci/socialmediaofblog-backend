@@ -76,7 +76,6 @@ const getAllArticleSortByReactionPoint = (req, res, next) => {
 //Get Articles by user_id
 const getArticlesByUser_id = async (req, res, next) => {
 	const id = req.params.user_id;
-
 	const promise = Article.aggregate([
 		{
 			$match: {
